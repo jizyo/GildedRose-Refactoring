@@ -1,7 +1,7 @@
 class Item {
   constructor(name, sellIn, quality){
     this.name = name;
-    this.sellIn = sellIn; // variable name not clear enough
+    this.sellIn = sellIn; 
     this.quality = quality;
   }
 }
@@ -96,7 +96,6 @@ class Shop {
       } 
 
       if (!item instanceof Sulfuras){
-        // Standard-Item-Logik
         item.sellIn--;
         if (item.quality > 0) {
           item.quality--;

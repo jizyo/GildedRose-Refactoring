@@ -80,22 +80,12 @@ class Shop {
 
   updateQuality() {
     this.items.forEach(item => {
-      if (item instanceof AgedBrie) {
+      if (item instanceof AgedBrie || item instanceof BackstagePass || item instanceof ConjuredItem) {
         item.updateQuality();
-        return
-      } 
-      
-      if (item instanceof BackstagePass) {
-        item.updateQuality(); 
-        return
-      } 
+        return;
+      }
 
-      if (item instanceof ConjuredItem) {
-        item.updateQuality(); 
-        return
-      } 
-
-      if (!item instanceof Sulfuras){
+      if (!(item instanceof Sulfuras)){
         item.sellIn--;
         if (item.quality > 0) {
           item.quality--;

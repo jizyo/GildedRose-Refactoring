@@ -1,80 +1,80 @@
 class Item {
-  constructor(name, sellIn, quality){
+  constructor(name, sellIn, quality) {
     this.name = name;
-    this.sellIn = sellIn; 
+    this.sellIn = sellIn;
     this.quality = quality;
   }
 }
 
-class AgedBrie extends Item{
-  constructor(sellIn, quality){
-    super('Aged Brie', sellIn, quality)
+class AgedBrie extends Item {
+  constructor(sellIn, quality) {
+    super('Aged Brie', sellIn, quality);
   }
-  
-  updateQuality() {
-    this.sellIn--; 
 
-    if (this.quality < 50) {
-      this.quality++; 
-    }
-
-    if (this.sellIn < 0 && this.quality < 50) {
-      this.quality++;
-    }
-  }
-}
-
-class BackstagePass extends Item{
-  constructor(sellIn, quality){
-    super('Backstage passes to a TAFKAL80ETC concert', sellIn, quality)
-  }
   updateQuality() {
     this.sellIn--;
 
     if (this.quality < 50) {
-      this.quality++; 
+      this.quality++;
     }
 
     if (this.sellIn < 0 && this.quality < 50) {
       this.quality++;
     }
-
-    if (this.sellIn <= 10){
-      if(this.sellIn <= 5){
-        this.quality + 2;
-        return;
-      }
-      this.quality++;
-    }
   }
 }
 
-class Sulfuras extends Item{
-  constructor(sellIn, quality){
-    super('Sulfuras, Hand of Ragnaros', sellIn, quality)
+class BackstagePass extends Item {
+  constructor(sellIn, quality) {
+    super('Backstage passes to a TAFKAL80ETC concert', sellIn, quality);
   }
-}
 
-class ConjuredItem extends Item{
-  constructor(sellIn, quality){
-    super('Conjured Item', sellIn, quality)
-  }
-  
   updateQuality() {
-    this.sellIn--; 
-
     if (this.quality < 50) {
-      this.quality - 2; 
+      this.quality++;
+      if (this.sellIn <= 10) {
+        if (this.sellIn <= 5) {
+          this.quality += 2; // increase by 3 when sellIn is 5 or less
+        } else {
+          this.quality++; // increase by 2 when sellIn is 10 or less
+        }
+      }
     }
 
-    if (this.sellIn < 0 && this.quality < 50) {
-      this.quality - 2;
+    this.sellIn--;
+
+    if (this.sellIn < 0) {
+      this.quality = 0; // drops to 0 after the concert
+    }
+  }
+}
+
+class Sulfuras extends Item {
+  constructor(sellIn) {
+    super('Sulfuras, Hand of Ragnaros', sellIn, 80);
+  }
+}
+
+class ConjuredItem extends Item {
+  constructor(sellIn, quality) {
+    super('Conjured Item', sellIn, quality);
+  }
+
+  updateQuality() {
+    this.sellIn--;
+
+    if (this.quality > 0) {
+      this.quality -= 2; // Degrade twice as fast
+    }
+
+    if (this.sellIn < 0 && this.quality > 0) {
+      this.quality -= 2; // Degrade twice as fast after sell by date
     }
   }
 }
 
 class Shop {
-  constructor(items=[]){
+  constructor(items = []) {
     this.items = items;
   }
 
@@ -85,7 +85,7 @@ class Shop {
         return;
       }
 
-      if (!(item instanceof Sulfuras)){
+      if (!(item instanceof Sulfuras)) {
         item.sellIn--;
         if (item.quality > 0) {
           item.quality--;
@@ -94,8 +94,8 @@ class Shop {
           item.quality--;
         }
       }
-    
     });
+
     return this.items;
   }
 }
@@ -106,8 +106,9 @@ module.exports = {
   BackstagePass,
   Sulfuras,
   ConjuredItem,
-  Shop
-}
+  Shop,
+};
+
 
 
 /*

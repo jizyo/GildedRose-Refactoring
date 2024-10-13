@@ -1,4 +1,4 @@
-const { AgedBrie, BackstagePass, Sulfuras, ConjuredItem, Shop } = require('./gilded_rose');
+const { AgedBrie, BackstagePass, Sulfuras, ConjuredItem, Shop } = require('./refactored_gilded_rose');
 
 // Test for Aged Brie
 describe('AgedBrie', () => {
